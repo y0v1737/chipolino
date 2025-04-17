@@ -1,0 +1,4 @@
+pyserial
+argparse
+hexdump
+rich
