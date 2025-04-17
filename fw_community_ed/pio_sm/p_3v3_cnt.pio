@@ -1,0 +1,33 @@
+.program p_3v3_cnt
+.side_set 3
+
+public entry:
+    pull block         side 0b001 ; wait for reset
+    mov y, osr         side 0b010
+
+    pull block         side 0b010
+    mov y, osr         side 0b010
+    pull block         side 0b010
+    mov x, osr         side 0b010
+    pull block         side 0b010
+
+posedges:
+    wait 0 pin 0       side 0b010
+    wait 1 pin 0       side 0b010
+    jmp y-- posedges   side 0b010
+
+    mov y, osr         side 0b010
+
+poffset:
+    jmp x-- poffset    side 0b010
+
+pwidth:
+    jmp y-- pwidth     side 0b110
+
+    irq 0              side 0b010
+
+loop:
+    jmp loop           side 0b010
+
+
+

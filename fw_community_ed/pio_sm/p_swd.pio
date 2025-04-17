@@ -1,0 +1,46 @@
+.program p_swd
+.side_set 1 opt
+
+public out_negedge:
+    set pindirs, 1 side 0x0 ; Init OE clock 0
+    pull           ; Pull number of bits to shift -1 from tx fifo and put into output shift register
+    mov x, osr     ; mov bits to shift -1 from output shift register into x
+    pull           ; Pull data to shift out
+out_negedge_bitloop:
+    out pins, 1                  side 0x0 ; clock data out on falling edge
+    jmp  x-- out_negedge_bitloop side 0x1 ; data is present for posedge
+    set pins, 1                  side 0x0 ; Drive data high (idle bus state)
+    push                                 ; Push to rx fifo just so processor knows when done
+    jmp out_negedge                      ; Wait for next transaction
+
+public in_posedge:
+    set pindirs, 0 side 0x0 ; INIT IE clock 0
+    pull                   ; Pull number of bits to shift -1 from tx fifo and put into output shift register
+    mov x, osr             ; mov bits to shift -1 from output shift register into x into x
+in_posedge_bitloop:
+    in pins, 1                        side 0x1 ; Generate posedge and read data
+    jmp x-- in_posedge_bitloop        side 0x0 ;
+    push                                      ; Push to rx fifo when done
+    jmp in_posedge                            ; Jump back to start
+
+
+% c-sdk {
+void p_swd_program_init(PIO pio, uint32_t sm, uint32_t offset, uint32_t pin_swclk, uint32_t pin_swdio) {
+    pio_sm_config c = p_swd_program_get_default_config(offset);
+
+    float clk_sys_freq_khz = clock_get_hz(clk_sys) / 1000.0;
+    sm_config_set_clkdiv(&c, clk_sys_freq_khz / 1000.0); // 1000.0 -> 1mhz
+    sm_config_set_sideset_pins(&c, pin_swclk);
+    sm_config_set_out_pins(&c, pin_swdio, 1);
+    sm_config_set_set_pins(&c, pin_swdio, 1);
+    sm_config_set_in_pins(&c, pin_swdio);
+    sm_config_set_out_shift(&c, true, false, 0);
+    sm_config_set_in_shift(&c, true, false, 0);
+
+    pio_sm_set_consecutive_pindirs(pio, sm, pin_swclk, 2, true);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
+
+

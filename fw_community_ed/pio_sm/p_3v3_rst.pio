@@ -1,0 +1,25 @@
+.program p_3v3_rst
+.side_set 3
+
+public entry:
+    pull block         side 0b011
+    mov y, osr         side 0b011
+    pull block         side 0b011
+    mov x, osr         side 0b011
+    pull block         side 0b011
+
+rst_loop:
+    jmp y-- rst_loop   side 0b011
+
+    mov y, osr         side 0b011
+
+poffset:
+    jmp x-- poffset    side 0b010
+
+pwidth:
+    jmp y-- pwidth     side 0b100
+
+    irq 0              side 0b010
+
+loop:
+    jmp loop           side 0b010

@@ -1,0 +1,42 @@
+.program p_gnd_cnt_2g
+.side_set 1
+
+public entry:
+    pull block         side 0
+    mov y, osr         side 0
+    pull block         side 0
+    mov x, osr         side 0
+    pull block         side 0
+
+posedges:
+    wait 0 pin 0       side 0
+    wait 1 pin 0       side 0
+    jmp y-- posedges   side 0
+
+    mov y, osr         side 0
+
+poffset:
+    jmp x-- poffset    side 0
+
+pwidth_g1:
+    jmp y-- pwidth_g1     side 1
+
+    ;mov y, osr         side 0
+    pull block         side 0
+    mov x, osr         side 0
+    pull block         side 0
+    mov y, osr         side 0
+
+pwindow1:
+    jmp x-- pwindow1    side 0  
+
+pwidth_g2:
+    jmp y-- pwidth_g2     side 1
+
+    irq 0              side 0
+
+loop:
+    jmp loop           side 0
+
+
+
