@@ -1,0 +1,35 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\STM\STM32F411CCU_revA\Pick and place\Pick Place for STM32F411CCU_revA(Normal).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       25.02.25
+Time:       12:23
+Revision:   95745b50eab901673ed5875b5c483e243b36f6ae
+Variant:    Normal
+Units used: mil
+
+Designator Comment                                                             Layer    Footprint                        Center-X(mil) Center-Y(mil) Rotation Description      
+C1         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          966.535       2009.842      180      ""               
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          661.417       1649.606      180      ""               
+C3         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          877.721       1634.611      90       ""               
+C4         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          585.630       2011.811      90       ""               
+C5         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          578.740       1707.677      90       ""               
+C7         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"       TopLayer CH0603C                          688.976       2145.669      270      ""               
+L1         10uH                                                                TopLayer INDC_0603(1608)X95N              691.995       2028.149      180      ""               
+R1         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"           TopLayer CH0603R                          364.173       1744.094      270      ""               
+R2         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"           TopLayer CH0603R                          1023.622      1830.709      270      ""               
+R3         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"           TopLayer CH0603R                          610.236       2145.669      90       ""               
+R4         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"           TopLayer CH0603R                          458.528       1853.159      90       ""               
+RP1        "1.0 mm"                                                            TopLayer REPER-10                         826.772       78.740        0        ""               
+RP2        "1.0 mm"                                                            TopLayer REPER-10                         111.221       2639.764      90       ""               
+RP3        "1.0 mm"                                                            TopLayer REPER-10                         1091.732      1174.409      90       ""               
+U1         "IC microcontroller , STM32F411CCU6, 48-UFQFPN (7x7), 256KB, 128KB" TopLayer BODY:_UFQFPN48_(7x7)_-_via_0.2mm 769.685       1840.552      270      Cortex-M4        
+VT1        IRLML2502TRPBF                                                      TopLayer SOT23                            475.394       1735.236      270      "RoHS Compliant" 
+X1         VDD                                                                 TopLayer TEST-1W_1pin_MULTICOMP           629.921       1259.842      90       ""               
+X2         GND                                                                 TopLayer TEST-1W_1pin_MULTICOMP           629.921       629.921       90       ""               
+X3         GP5                                                                 TopLayer TEST-1W_1pin_MULTICOMP           629.921       944.882       90       ""               
+X4         VCAP1                                                               TopLayer TEST-1W_1pin_MULTICOMP           629.921       1543.307      90       ""               
+X5         DS1025-06-2x10                                                      TopLayer DS1025-06-2X10                   188.189       2053.740      90       ""               
+X6         DS1022-2x10R                                                        TopLayer DS1022-2x10R                     242.913       1079.921      90       ""               

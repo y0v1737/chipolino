@@ -1,0 +1,27 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\universal_addon_revA\Pick and place\Pick Place for universal_addon_revA(3v3 Pull-Up).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       27.03.25
+Time:       17:51
+Revision:   6944b7be3070ebe149aa835cdf3e041b27a71152
+Variant:    3v3 Pull-Up
+Units used: mil
+
+Designator Comment                                                       Layer    Footprint              Center-X(mil) Center-Y(mil) Rotation Description                                                                                                     
+C1         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer CH0603C                416.339       586.614       0        ""                                                                                                              
+R3         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer CH0603R                417.323       708.661       90       ""                                                                                                              
+R4         "Resistor thick-film, 0603, 100, ±1%, 0.1W, -55...+125°C"     TopLayer CH0603R                585.630       1478.347      270      ""                                                                                                              
+R5         "Resistor thick-film, 0603, 10k, ±1%, 0.1W, -55...+125°C"     TopLayer CH0603R                660.433       1478.347      90       ""                                                                                                              
+RP1        "1.0 mm"                                                      TopLayer REPER-10               826.772       78.740        0        ""                                                                                                              
+RP2        "1.0 mm"                                                      TopLayer REPER-10               111.221       2639.764      90       ""                                                                                                              
+RP3        "1.0 mm"                                                      TopLayer REPER-10               385.827       72.835        90       ""                                                                                                              
+VT1        IRLML2502TRPBF                                                TopLayer SOT23                  786.417       1490.158      270      "RoHS Compliant | Industry-leading quality | Fast Switching | Low Profile _less than 1.1mm_ | SOT-23 Footprint" 
+X1         DS1025-06-2x10                                                TopLayer DS1025-06-2X10         188.189       2053.740      90       ""                                                                                                              
+X2         DS1022-2x10R                                                  TopLayer DS1022-2x10R           242.913       1079.921      90       ""                                                                                                              
+X22        GND                                                           TopLayer TEST-1W_1pin_MULTICOMP 787.402       2346.457      90       ""                                                                                                              
+X23        GND                                                           TopLayer TEST-1W_1pin_MULTICOMP 590.551       393.701       90       ""                                                                                                              
+X24        GND                                                           TopLayer TEST-1W_1pin_MULTICOMP 637.795       1673.228      270      ""                                                                                                              
+X25        GP5                                                           TopLayer TEST-1W_1pin_MULTICOMP 1102.362      1673.228      90       ""                                                                                                              

@@ -1,0 +1,30 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\NXP\LPC2148FBD64_revA\Pick and place\Pick Place for LPC2148FBD64_revA(Normal).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       31.03.25
+Time:       15:35
+Revision:   441aafe3f1bbb5cd61d6bc288ee3313d7b0e1d1f
+Variant:    Normal
+Units used: mil
+
+Designator Comment                                                       Layer    Footprint                Center-X(mil) Center-Y(mil) Rotation Description                                                                                                                                        
+C1         "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  TopLayer CH0603C                  438.976       2146.654      0        ""                                                                                                                                                 
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer CH0603C                  469.488       2256.890      270      ""                                                                                                                                                 
+C3         "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  TopLayer CH0603C                  438.976       1825.788      180      ""                                                                                                                                                 
+R1         "Resistor thick-film, 0603, 3k, ±5%, 0.1W, -55...+125°C"      TopLayer CH0603R                  1042.323      1636.811      180      ""                                                                                                                                                 
+R2         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer CH0603R                  489.173       1346.457      180      ""                                                                                                                                                 
+R4         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer CH0603R                  400.591       2255.906      90       ""                                                                                                                                                 
+RP1        "1.0 mm"                                                      TopLayer REPER-10                 826.772       78.740        0        ""                                                                                                                                                 
+RP2        "1.0 mm"                                                      TopLayer REPER-10                 111.221       2639.764      90       ""                                                                                                                                                 
+RP3        "1.0 mm"                                                      TopLayer REPER-10                 1062.008      1718.504      90       ""                                                                                                                                                 
+U1         LPC2148FBD64                                                  TopLayer LPC2148FBD64-Footprint-1 832.677       2067.913      90       "ARM Mikrocontroller - MCU Single-chip 16-bit/32-bit microcontrollers; up to 512 kB flash with ISP/IAP, USB 2.0 full-speed device, 10-bit ADC DAC" 
+X1         VDD                                                           TopLayer TEST-1W_1pin_MULTICOMP   534.449       691.929       270      ""                                                                                                                                                 
+X2         GND                                                           TopLayer TEST-1W_1pin_MULTICOMP   534.449       928.150       270      ""                                                                                                                                                 
+X3         GP5                                                           TopLayer TEST-1W_1pin_MULTICOMP   534.449       455.709       270      ""                                                                                                                                                 
+X4         DS1025-06-2x10                                                TopLayer DS1025-06-2X10           188.189       2053.740      90       ""                                                                                                                                                 
+X5         DS1022-2x10R                                                  TopLayer DS1022-2x10R             242.913       1079.921      90       ""                                                                                                                                                 
+X6         10-Connector                                                  TopLayer DS1021-01-10__2.54       1042.323      888.976       90       "PLD connector 10 pin, 2.54mm, Male, V/T Type"                                                                                                     
+Z1         12MHz                                                         TopLayer OSC:_3225                421.752       2019.193      270      ""                                                                                                                                                 

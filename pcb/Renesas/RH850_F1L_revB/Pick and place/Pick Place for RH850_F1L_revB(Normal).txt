@@ -1,0 +1,48 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\Renesas\RH850_F1L_revB\Pick and place\Pick Place for RH850_F1L_revB(Normal).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       25.03.25
+Time:       13:19
+Revision:   20407f8788e49c49c265d25e62cf4a7633a6c5fd
+Variant:    Normal
+Units used: mil
+
+Designator Comment                                                       Layer       Footprint               Center-X(mil) Center-Y(mil) Rotation Description                                         
+C1         "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  BottomLayer CH0603C                 468.504       1854.331      90       ""                                                  
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                 322.835       2106.299      180      ""                                                  
+C3         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" BottomLayer CH0603C                 536.417       2158.465      180      ""                                                  
+C4         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                 1114.173      1685.039      0        ""                                                  
+C5         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                 476.378       1570.866      0        ""                                                  
+C6         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                 751.968       2307.087      180      ""                                                  
+C9         "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  BottomLayer CH0603C                 669.291       1846.457      270      ""                                                  
+C10        "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                 1099.902      2127.461      90       ""                                                  
+R1         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer    CH0603R                 322.835       1846.457      90       ""                                                  
+R2         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                 322.835       1960.630      270      ""                                                  
+R3         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       BottomLayer CH0603R                 663.386       2010.827      180      ""                                                  
+R4         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                 480.315       1421.260      180      ""                                                  
+R5         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     BottomLayer CH0603R                 779.528       1854.331      0        ""                                                  
+R7         "Resistor thick-film, 0603, 100, ±5%, 0.1W, -55...+125°C"     BottomLayer CH0603R                 777.559       1795.276      0        ""                                                  
+R9         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                 476.378       1519.685      180      ""                                                  
+R10        "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     BottomLayer CH0603R                 536.417       2209.646      0        ""                                                  
+R11        "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer    CH0603R                 476.378       2362.205      0        ""                                                  
+RP1        "1.0 mm"                                                      TopLayer    REPER-10                1125.984      295.276       0        ""                                                  
+RP2        "1.0 mm"                                                      TopLayer    REPER-10                110.236       2637.795      90       ""                                                  
+RP3        "1.0 mm"                                                      BottomLayer REPER-10                110.236       2637.795      90       ""                                                  
+RP4        "1.0 mm"                                                      BottomLayer REPER-10                1125.984      295.276       90       ""                                                  
+U1         RH850/F1L                                                     TopLayer    LQFP100-0.5-13.8X13.8MM 720.472       1938.976      270      "Renesas microcontroller RH850/F1L in LQFP100 case" 
+VT1        IRLML2502TRPBF                                                BottomLayer SOT23                   770.669       1966.535      180      "RoHS Compliant"                                    
+X1         VDD                                                           TopLayer    TEST-1W_1pin_MULTICOMP  1102.362      677.165       90       ""                                                  
+X2         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP  1102.362      452.756       90       ""                                                  
+X3         GP5                                                           TopLayer    TEST-1W_1pin_MULTICOMP  1112.205      1508.858      90       ""                                                  
+X4         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP  1118.110      1929.134      180      ""                                                  
+X5         DS1025-06-2x10                                                TopLayer    DS1025-06-2X10          188.189       2053.740      90       ""                                                  
+X6         DS1022-2x10R                                                  TopLayer    DS1022-2x10R            242.913       1079.921      90       ""                                                  
+X7         IS0VCl                                                        TopLayer    TEST-1W_1pin_MULTICOMP  1098.425      2401.575      90       ""                                                  
+X8         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP  787.402       452.756       90       ""                                                  
+X9         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP  472.441       452.756       90       ""                                                  
+X10        DS1021-01-7                                                   TopLayer    DS1021-01-7_2.54        602.362       51.181        180      ""                                                  
+X11        DS1021-01-6                                                   TopLayer    DS1021-01-6__2.54       1106.299      1113.780      270      ""                                                  
+Z1         16MHz                                                         BottomLayer OSC:_3225               556.594       1851.378      90       ""                                                  
