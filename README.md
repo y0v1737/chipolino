@@ -10,7 +10,7 @@ Chip'olino решает две основные задачи:
 * [nRF52](The_Playbook/nRF52.md)
 * [Renesas (RH850)](The_Playbook/Renesas.md)
 * [NXP (LPC214x, LPC134x)](The_Playbook/NXP.md)
-* [STM32 (F405/407, F401/F411, F466, F421/F429, H7xx (RDP2 only))](The_Playbook/STM32.md)
+* [STM32 (F401/F411)](The_Playbook/STM32.md)
 
 Помимо основных алгоритмов в репозитории присутствуют вспомогательные скрипты: для блокировки тестовых чипов, вычитывания прошивок, стираний чипа, определения текущего уровня защиты.
 
