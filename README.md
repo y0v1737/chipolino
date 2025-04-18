@@ -58,7 +58,6 @@ Chip'olino решает две основные задачи:
 │   │   └── STM32F411CCU_revA
 │   ├── Renesas                      # Renesas addons PCB
 │   │   └── RH850_F1L_revB   
-│   ├── template_addon_revA          # template addon project
 │   └── universal_addon_revA         # universal addon project
 ├── scripts                           
 │   ├── check_ssr_rh850.py    
