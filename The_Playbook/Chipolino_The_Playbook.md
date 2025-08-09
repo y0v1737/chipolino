@@ -1,41 +1,41 @@
 # Chip'olino: The Playbook
 
-Chip'olino - программно-аппаратный комплекс для проведения glitch-атак по питанию. В него входит основная плата Chip'olino и набор аддонов для различных микроконтроллеров.
-Chip'olino решает две основные задачи:
-* Проведение уже известных атак по питанию на микроконтроллеры;
-* Исследование и эксперименты в области атак по питанию.
+**Chip'olino** is a hardware-software platform designed for performing glitch attacks via power supply. It includes the main Chip'olino board and a set of addons for various microcontrollers. Chip'olino addresses two main tasks:
+- Performing known power supply attacks on microcontrollers.    
+- Research and experiments in the field of power supply attacks.
 
 ### Targets
-Сейчас в проекте реализованы алгоритмы для проведения атак на:
-* [nRF52](nRF52.md)
-* [Renesas (RH850)](Renesas.md)
+Currently, the project includes algorithms for conducting attacks on:
+* [nRF52 (The entire nRF5 family)](nRF52.md)
+* [Renesas RH850 (The entire RH850 family)](Renesas.md)
 * [NXP (LPC214x, LPC134x)](NXP.md)
-* [STM32 (F401/F411)](STM32.md)
+* [STM32 (Different series of chips)](STM32.md)
 
-Помимо основных алгоритмов в репозитории присутствуют вспомогательные скрипты: для блокировки тестовых чипов, вычитывания прошивок, стираний чипа, определения текущего уровня защиты.
+In addition to the main algorithms, the repository contains auxiliary scripts for locking test chips, reading firmware, erasing the chip, and determining the current protection level.
+
 
 ![600](pics/pcb_pics/ALLIN2.png)
-###### Note
-В Chip'olino имплементированы алгоритмы для разблокировки большого количества чипов, но все же это не убирает необходимость читать документацию и подробно разбираться в происходящем. Нужно понимать и как устроена защита целевого МК, и как происходит атака. Тема атак по питанию сложная и интересная, нюансов много.
+##### Author's note.
+Chip'olino implements algorithms for unlocking a large number of chips, but this does not eliminate the need to read the documentation and thoroughly understand what is happening. One needs to understand both how the protection of the target MCU works and how the attack is carried out. Power supply attacks are a complex and fascinating topic with many nuances.
 
-Ниже приведена функциональная схема данного устройства.
-
-
+Below is the functional diagram of the Chip'olino.
 
 ![](Chipolino_logic_sch/Chipolino_logic_sch.png)
-Для проведения атаки на МК, его нужно выпаять и запаять на готовый аддон, который можно подключать к основной плате. Такой подход позволяет хорошо зафиксировать временные параметры атаки и сильно повышает повторяемость атаки.
+
+To carry out an attack on the MCU, it needs to be desoldered and soldered onto a ready-made addon, which can be connected to the main board. This approach allows for precise control of the timing parameters of the attack and significantly improves the repeatability of the attack.
 
 ### Features
-* Возможность использовать внешнее питание (0-5V, 100mA) для проведения атак, если недостаточно представленных на плате. Так, например, для некоторых чипов лучше использовать пониженное напряжение питания вместо 3.3В, указанных в документации на чип. В таком случае можно подключить лабораторный блок питания в разъем X2 (External target supply) и поэкспериментировать.
-* SWD реализованный в Chip'olino. Для атак на NRF52, STM32 и другие чипы иногда необходимо быстро взаимодействовать с МК через SWD. Обычно в сетап добавляют внешний программатор (как J-Link), но такой вариант сильно замедляет перебор из-за прослойки драйверов USB. В Chip'olino есть модуль реализующий SWD на PIO. Скорость перебора возрастает в сотню раз.
-* Мультиплексор для SWD позволяет подключаться к аддону как через встроенный SWD интерфейс, так и через внешний отладчик, подключенный в разъем X11. Это удобно для быстрого подключения программатора после атаки.
-* Наличие различных источников питания, а также возможность управлять ими.
-* Возможность подключать внешние 5 вольт для питания всего устройства. Это позволяет нивелировать влияние различных помех.
-* Наличие универсального аддона для подключения и тестирования на любой плате.
-* Набор вспомогательных скриптов для МК.
+* **External power supply for attacks:** Support for external power supply (0–5V, 100mA) through the X2 connector (External Target Supply). This is useful when the built-in power source is insufficient or when a lower voltage is required (e.g., for some chips that require less than the standard 3.3V). It allows you to connect a lab power supply and experiment with different power levels.    
+- **High-speed SWD interface:** The implementation of SWD on the PIO in the Chip'olino module ensures direct and fast interaction with microcontrollers (NRF52, STM32, etc.) without the delays typical of USB programmers (J-Link and similar), speeding up command cycling by hundreds of times.    
+- **SWD multiplexer:** The ability to switch between the built-in SWD interface and an external debugger connected to the X11 connector, which is convenient for quickly connecting an external programmer right after the attack is completed.    
+- **Variety of power sources:** Several built-in power sources with independent control and support for external 5V power supply for the entire device, reducing the impact of noise and interference.    
+- **Universal addon:** A module for connecting and testing any boards and devices.    
+- **Auxiliary scripts:** A set of ready-made scripts for automating tasks and simplifying work with microcontrollers.
 
-###### Note
-Все величины смещений и ширин импульсов для сбоя, приведенные в инструкции, указаны для тактовой частоты RP2040 250 MHz.
+##### Note
+```
+All values for pulse widths and offset shifts for glitches provided in the instructions are based on the RP2040 clock frequency of 250 MHz.
+```
 
 ### Files
 
@@ -50,22 +50,29 @@ Chip'olino решает две основные задачи:
 ├── pcb                              # PCB projects
 │   ├── ChipOlino_revA               # Chip'olino PCB project
 │   ├── Nordic                       # Nordic addons PCB
+│   │   ├── nRF52832-CIAA
 │   │   ├── nRF52840-QIAA
 │   │   └── nRF52833-QDAA
 │   ├── NXP                          # NXP addons PCB
+│   │   ├── LPC1343FBD48_revA
 │   │   └── LPC2148FBD64_revA
 │   ├── STM                          # STM addons PCB
+│   │   ├── STM32F446RCT6_revA
 │   │   └── STM32F411CCU_revA
 │   ├── Renesas                      # Renesas addons PCB
 │   │   └── RH850_F1L_revB   
+│   ├── template_addon_revA          # template addon project
 │   └── universal_addon_revA         # universal addon project
 ├── scripts                           
 │   ├── check_ssr_rh850.py    
 │   ├── chipctrl.py                  # Chip'olino control script (main for use)
 │   ├── chipolino.py                 # class for Chip'olino board 
 │   ├── dump_rh850.py                
-│   ├── dump_stm32.py                
-│   ├── erase_lpc2148.py             
+│   ├── dump_stm32.py 
+│   ├── dump_lpc1343.py
+│   ├── dump_lpc2148.py
+│   ├── erase_lpc2148.py
+│   ├── erase_lpc1343.py
 │   ├── erase_rh850.py               
 │   ├── requirements.txt             # pip install -r requirements.txt
 │   └── test_erase_stm32.py          
@@ -74,8 +81,8 @@ Chip'olino решает две основные задачи:
 
 ### Quick start
 
-1) Установить все необходимые пакеты
+1) Install all the necessary packages:
 ```
 pip install -r ./scripts/requirements.txt
 ```
-2) Читать The Playbook
+2) Read **The Playbook**.

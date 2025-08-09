@@ -1,0 +1,27 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\NXP\LPC1343FBD48_revA\Pick and place\Pick Place for LPC1343FBD48_revA(Normal).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       05.04.25
+Time:       13:11
+Revision:   6944b7be3070ebe149aa835cdf3e041b27a71152
+Variant:    Normal
+Units used: mil
+
+Designator Comment                                                       Layer    Footprint              Center-X(mil) Center-Y(mil) Rotation Description                                                                                
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer CH0603C                629.921       1732.284      90       ""                                                                                         
+R2         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer CH0603R                405.512       2068.898      90       ""                                                                                         
+R3         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer CH0603R                407.480       2187.008      270      ""                                                                                         
+R4         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer CH0603R                531.496       1732.284      270      ""                                                                                         
+RP1        "1.0 mm"                                                      TopLayer REPER-10               826.772       78.740        0        ""                                                                                         
+RP2        "1.0 mm"                                                      TopLayer REPER-10               111.221       2639.764      90       ""                                                                                         
+RP3        "1.0 mm"                                                      TopLayer REPER-10               1102.362      1614.173      90       ""                                                                                         
+U1         LPC1343FBD48                                                  TopLayer LQFP48                 826.772       2086.614      90       "ARM Cortex-M3 LPC13xx Microcontroller IC 32-Bit 72MHz 32KB (32K x 8) FLASH 48-LQFP (7x7)" 
+X1         3V3_MUX                                                       TopLayer TEST-1W_1pin_MULTICOMP 515.748       2013.780      0        ""                                                                                         
+X2         GND                                                           TopLayer TEST-1W_1pin_MULTICOMP 534.449       1478.347      0        ""                                                                                         
+X3         GP5                                                           TopLayer TEST-1W_1pin_MULTICOMP 661.417       1187.992      0        ""                                                                                         
+X4         DS1025-06-2x10                                                TopLayer DS1025-06-2X10         188.189       2053.740      90       ""                                                                                         
+X5         DS1022-2x10R                                                  TopLayer DS1022-2x10R           242.913       1079.921      90       ""                                                                                         
+X6         DS1021-01x3                                                   TopLayer DS1021-01-3_2.54       1081.693      764.764       270      "PLS Connector 3 pin, 2.54mm, Male"                                                        

@@ -12,12 +12,7 @@ pcb = None
 
 STM_CHUNK_SIZE = 0x100
 
-targets_list = ["stm32f401_spi_rdp1",
-                "stm32f407_uart_rdp1",
-                "stm32f427_spi_rdp1",
-                "stm32f429_spi_rdp1",
-                "stm32f446_spi_rdp1",
-                ]
+targets_list = ["stm32f4xx_spi_rdp1", "stm32f4xx_uart_rdp1",]
 
 def exit_gracefully(signal, frame):
     print('\r\nStop signal')

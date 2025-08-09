@@ -18,17 +18,16 @@
      while (bits--) {
          if (set_color & (1 << bit++)) {
              // one
-             for (index = 0; index <= 20; index++) // for (index = 0; index <= 10; index++)
+             for (index = 0; index <= 20; index++)
                  gpio_put(ws2812_config->pin, 1);
-             for (index = 0; index <= 4; index++)  // for (index = 0; index <= 2; index++)
+             for (index = 0; index <= 4; index++)
                  gpio_put(ws2812_config->pin, 0);
          } else {
              // zero
-             for (index = 0; index <= 6; index++)  // for (index = 0; index <= 3; index++)
+             for (index = 0; index <= 6; index++)
                  gpio_put(ws2812_config->pin, 1);
-             for (index = 0; index <= 20; index++) // for (index = 0; index <= 10; index++)
+             for (index = 0; index <= 20; index++)
                  gpio_put(ws2812_config->pin, 0);
          }
-
      }
  }

@@ -5,7 +5,8 @@
 
 #define AP_ID_LOCK 0x23000000UL
 
-extern target_t nrf52_mosfet_tgt;
+extern target_t nrf52_tgt;
+
 
 uint32_t nrf52_board_init();
 uint32_t nrf52_sync();

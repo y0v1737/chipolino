@@ -1,7 +1,7 @@
 #include "nrf52.h"
 
-target_t nrf52_mosfet_tgt = {
-    .name = "nrf52_mosfet",
+target_t nrf52_tgt = {
+    .name = "nrf52",
     .rst_delay_tick = 800000,
     .check_delay_us = 30000,
     .ap_id = 0x24770011,
@@ -30,7 +30,7 @@ uint32_t nrf52_sync()
     ap_id = ahb_ap_check();
     ap_id = ahb_ap_check();
     ap_id = ahb_ap_check();
-    printf("Target ID %x\r\n", ap_id);
+    printf("Target ID: 0x%x\r\n", ap_id);
     uint32_t new_dword = (ap_id & 0x000000ff) << 24 | (ap_id & 0x0000ff00) << 8 | (ap_id & 0x00ff0000) >> 8 | (ap_id & 0xff000000) >> 24;
     log_info_raw((uint8_t*)(&new_dword), 4);
     if (ap_id == tar->ap_id || ap_id == AP_ID_LOCK)
@@ -45,7 +45,7 @@ uint32_t nrf52_is_unlock()
     ap_id = ahb_ap_check();
     ap_id = ahb_ap_check();
     ap_id = ahb_ap_check();
-    printf("Target ID %x\r\n", ap_id);
+    printf("Target ID: 0x%x\r\n", ap_id);
     uint32_t new_dword = (ap_id & 0x000000ff) << 24 | (ap_id & 0x0000ff00) << 8 | (ap_id & 0x00ff0000) >> 8 | (ap_id & 0xff000000) >> 24;
     log_info_raw((uint8_t*)(&new_dword), 4);
     if (ap_id == tar->ap_id)

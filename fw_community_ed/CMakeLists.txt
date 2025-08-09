@@ -17,6 +17,7 @@ add_executable(chipolino
   swd_pico.c
   common.c
   ws2812.c
+  jtag.c
 )
 
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_3v3_rst.pio)
@@ -26,6 +27,7 @@ pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_gnd_cnt.pi
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_gnd_cnt_2g.pio)
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_gnd_3v3.pio)
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_3v3_cnt.pio)
+pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/pwm.pio)
 
 pico_enable_stdio_usb(chipolino 1)
 pico_enable_stdio_uart(chipolino 0)

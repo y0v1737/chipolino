@@ -9,9 +9,9 @@ public entry:
     pull block         side 0b001
 
 rst_loop:
-    jmp y-- rst_loop   side 0b001
+    jmp y-- rst_loop   side 0b001 
 
-    mov y, osr         side 0b010
+    mov y, osr         side 0b010 ; use only rst before
 
 poffset:
     jmp x-- poffset    side 0b010

@@ -20,31 +20,26 @@
 #include "p_gnd_3v3.pio.h"
 #include "p_3v3_cnt.pio.h"
 
+#include "pwm.pio.h"
 #include "ws2812.h"
 #include "target.h"
 #include "swd_pico.h"
+#include "jtag.h"
 
-#define STM_SPI spi0
-#define LPC_UART uart0
-#define STM_UART uart0
-#define RH850_UART uart0
-#define ESP_SPI spi0
-#define GD_UART uart0
+#define MCU_UART uart0
+#define MCU_SPI spi0
 
-#define GD_PIN_UART_TX GP12_I2C0_SDA_UART0_TX
-#define GD_PIN_UART_RX GP13_I2C0_SCL_UART0_RX
-
-#define STM_PIN_UART_TX GP12_I2C0_SDA_UART0_TX
-#define STM_PIN_UART_RX GP13_I2C0_SCL_UART0_RX
-
-#define RH850_PIN_UART_TX GP12_I2C0_SDA_UART0_TX
-#define RH850_PIN_UART_RX GP13_I2C0_SCL_UART0_RX
+#define MCU_PIN_UART_TX GP12_I2C0_SDA_UART0_TX
+#define MCU_PIN_UART_RX GP13_I2C0_SCL_UART0_RX
 
 #define LPC_PIN_UART_TX GP16_SPI0_RX_UART0_TX
 #define LPC_PIN_UART_RX GP17_SPI0_nCS_UART0_RX
 
 #define DEFAULT_SWD_PIO pio0
 #define DEFAULT_SWD_SM 0
+
+#define DEFAULT_FREE_PIO pio0
+#define DEFAULT_FREE_SM 1
 
 #define DEFAULT_GLITCHER_PIO pio1
 #define DEFAULT_GLITCHER_SM 0
@@ -76,6 +71,8 @@
 #define GLITCH_FAIL_BIT 5
 #define GLITCH_ADDR_CMD 6
 #define GLITCH_ADDR_CMD_BIT 7
+#define GLITCH_ADDR2_CMD_BIT 8
+#define GLITCH_ADDR2_CMD 9
 
 #define GP0_SWCLK_PIO                            0
 #define GP1_SWDIO_PIO                            1
@@ -103,6 +100,8 @@
 #define GP26                                    26
 #define GP27_LED_RGD                            27
 #define GP28_ADC2                               28
+
+#define EMFI_READY_PIN GP10_RP_TRIGGER
 
 // BRG blue red green
 #define GREEN_COLOR  0b000000000000000011111000
@@ -132,10 +131,11 @@ typedef struct {
     uint32_t end_offset;
     uint32_t start_width;
     uint32_t end_width; 
-    uint8_t step;
+    int32_t step;
     uint32_t attempt;
     uint32_t target_no;
-    uint32_t dump_addr;
+    uint32_t dump_addr1;
+    uint32_t dump_addr2;
     uint8_t memory[MAX_LEN_DUMP_MEM];
     log_info_t* log_info;
     target_t* target;
@@ -145,6 +145,7 @@ typedef struct {
 }app_t;
 
 extern app_t app;
+extern uint8_t mutex_app_log_info;
 
 typedef struct {
     char name[20];
@@ -173,6 +174,9 @@ void target_nrst(bool state);
 void ctrl_3v3_pin_set(bool state);
 void ctrl_ext_vcc_3v3_ln_set(bool state);
 void gpio_pin_set(uint32_t gp, bool state);
+void gpio_pin_get(uint32_t gp);
+uint32_t set_level_shifter(VOLT_SEL volt);
+VOLT_SEL get_level_shifter();
 
 uint32_t uart_read_buff(uart_inst_t * uart, uint8_t* buff);
 uint32_t uart_send_wait(uart_inst_t * uart, uint8_t* buff_tx, uint8_t* buff_rx, uint32_t time_wait);
@@ -182,5 +186,12 @@ uint8_t getc_uart(uart_inst_t * uart, uint32_t time_wait);
 uint32_t uart_tx_print(uart_inst_t * uart, uint8_t* buff_tx, uint32_t time_wait);
 void log_info_str(uint8_t* str, uint8_t size);
 void log_info_raw(uint8_t* data, uint8_t size);
+uint32_t get_uart_edges(const uint8_t* data, size_t length);
+
+void pio_pwm_set_period(PIO pio, uint sm, uint32_t period);
+void pio_pwm_set_level(PIO pio, uint sm, uint32_t level);
+void pwm_init(void);
+void emfi_trig_pin_init();
+uint8_t is_emfi_ready();
 
 #endif 

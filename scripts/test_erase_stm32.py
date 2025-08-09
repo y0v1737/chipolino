@@ -54,9 +54,9 @@ def do_dump():
                 hexdump(data)
                 print("attempts = {}, glitch = {}".format(idx_cmd, idx_glitch))
                 print("\n")  
-                # f = open(args.file, "wb")
-                # f.write(data)
-                # f.close()
+                f = open(args.file, "wb")
+                f.write(data)
+                f.close()
                 if comp_arr != data:
                     print("\r\ncmp buffers is incorrect\r\n")
                     pcb.stop_command_send()

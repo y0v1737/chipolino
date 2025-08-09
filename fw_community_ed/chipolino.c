@@ -9,6 +9,8 @@
 void user_btn_callback();
 uint32_t glitch_loop();
 
+uint8_t mutex_app_log_info = 0;
+
 log_info_t log_info = {
     .sig = 0x55,
     .len = 0,
@@ -33,57 +35,59 @@ target_t none_tgt = {
 
 target_t *targets_list[] = {
     &none_tgt,
-    &stm32f401_spi_rdp1_tgt, &stm32f401_rdp2_tgt,
+    &stm32f4xx_spi_rdp1_tgt, &stm32f4xx_uart_rdp1_tgt, &stm32f4xx_rdp2_tgt,
     &lpc2148_tgt,
     &lpc1343_tgt,
-    &nrf52_mosfet_tgt,
-    &rh850_tgt,
+    &nrf52_tgt,
+    &rh850_ser_tgt, 
 };
 
-void worker_core1()
+void err_cmd()
 {
-    uint work_cmd;
-    uint32_t fifo_val;
+    printf("\r\nERROR cmd\r\n");
+}
 
-    uint32_t g = multicore_fifo_pop_blocking();
-    if (g == FLAG_CORE_VALUE)
+void user_btn_callback() {
+    // sleep_ms() kill interrupt work and another same func
+    // print PANIC string to UART
+    if (gpio_get(GP11_SWD_CTRL))
     {
-        multicore_fifo_push_blocking(FLAG_CORE_VALUE);
+        swd_ext_set(false);
+        set_leds_color(PINK_COLOR, OFF_COLOR);
+    }        
+    else
+    {
+        swd_ext_set(true);
+        set_leds_color(ORANGE_COLOR, OFF_COLOR);        
     }
+}
 
-    while (1)
+uint32_t is_target_support(char *tgt)
+{
+    uint32_t i = 0;
+    for (i = 0; i < LENGTH(targets_list); i++)
     {
-        BIT_CLEAR(app.state, STOP_CMD_BIT);
-        fifo_val = multicore_fifo_pop_blocking();
-        if (fifo_val == 'C')
+        if (!strcmp(targets_list[i]->name, tgt))
         {
-            printf("rx command C\r\n");
-            if (BIT_CHECK(app.state, GLITCH_CMD_BIT))
-            {
-                printf("glitch start\r\n");
-                BIT_CLEAR(app.state, GLITCH_CMD_BIT);
-                BIT_SET(app.state, GLITCHING_BIT);
-                set_leds_color(WHITE_COLOR, OFF_COLOR);
-                if (glitch_loop())
-                {
-                    BIT_SET(app.state, GLITCH_SUCC_BIT);
-                    printf("------------------------\r\n");
-                    printf("Glitch OK done\r\n");
-                    printf("Offset %d, Width %d\r\n", app.cur_offset, app.cur_width);
-                    printf("------------------------\r\n");
-                    set_leds_color(GREEN_COLOR, OFF_COLOR);
-                }
-                else
-                {
-                    printf("------------------------\r\n");
-                    printf("Glitch BAD done\r\n");
-                    printf("------------------------\r\n");
-                    set_leds_color(RED_COLOR, OFF_COLOR);
-                }
-                BIT_CLEAR(app.state, GLITCHING_BIT);
-            }
+            return i;
         }
     }
+    return 0;
+}
+
+void set_target_by_no(app_t *a, uint32_t tgt_no)
+{
+    a->target_no = tgt_no;
+    a->target = targets_list[tgt_no];
+}
+
+uint32_t glitch_arg_save(app_t *a, char *arg0, char *arg1, char *arg2, char *arg3)
+{
+    a->start_offset = atoi(arg0);
+    a->end_offset = atoi(arg1);
+    a->start_width = atoi(arg2);
+    a->end_width = atoi(arg3);
+    return 1;
 }
 
 void register_command(command_t new_command)
@@ -128,6 +132,7 @@ bool get_string_timeout_us(char (*buffer)[100], uint32_t timeout)
 void parse_cmd_from_usb()
 {
     BIT_CLEAR(app.state, GLITCH_ADDR_CMD_BIT);
+    BIT_CLEAR(app.state, GLITCH_ADDR2_CMD_BIT);
 
     char cur_cmdname[100] = "";
     bool cmd_has_all_args = true;
@@ -180,6 +185,10 @@ void handle_bootrom()
 
 void handle_state()
 {
+    log_info_t log_info_tmp;
+    mutex_app_log_info = 1;
+    memcpy((uint8_t *)&log_info_tmp, (uint8_t *)app.log_info, sizeof(log_info_t));
+    mutex_app_log_info = 0;
     printf("--- state start ---\r\n");
     printf("state: 0x%x\r\n", app.state);
     printf("cur_offset: %d\r\n", app.cur_offset);
@@ -210,22 +219,6 @@ void handle_gpio()
         gpio_pin_set(atoi(command_args[0]), false);
 }
 
-uint32_t set_level_shifter(VOLT_SEL volt)
-{
-    gpio_init(GP14_TRIG_PWR_SEL_0);
-    gpio_set_dir(GP14_TRIG_PWR_SEL_0, GPIO_OUT);
-    gpio_put(GP14_TRIG_PWR_SEL_0, BIT_CHECK(volt, 0));
-
-    gpio_init(GP15_TRIG_PWR_SEL_1);
-    gpio_set_dir(GP15_TRIG_PWR_SEL_1, GPIO_OUT);
-    gpio_put(GP15_TRIG_PWR_SEL_1, BIT_CHECK(volt, 1));
-}
-
-VOLT_SEL get_level_shifter()
-{
-    return (gpio_get(GP15_TRIG_PWR_SEL_1) << 1) | gpio_get(GP14_TRIG_PWR_SEL_0);
-}
-
 void handle_trigger()
 {
     if (!strcmp(command_args[0], "1v2"))
@@ -238,26 +231,7 @@ void handle_trigger()
         set_level_shifter(V_Z);
 }
 
-uint32_t is_target_support(char *tgt)
-{
-    uint32_t i = 0;
-    for (i = 0; i < LENGTH(targets_list); i++)
-    {
-        if (!strcmp(targets_list[i]->name, tgt))
-        {
-            return i;
-        }
-    }
-    return 0;
-}
-
-void set_target_by_no(app_t *a, uint32_t tgt_no)
-{
-    a->target_no = tgt_no;
-    a->target = targets_list[tgt_no];
-}
-
-void cmd_status_hndr()
+void handle_status()
 {
     printf("--- status start ---\r\n");
     printf("Target: %s\r\n", app.target->name);
@@ -295,45 +269,6 @@ void cmd_status_hndr()
     printf("--- status end ---\r\n");
 }
 
-void handle_status()
-{
-    cmd_status_hndr();
-}
-
-uint32_t glitch_arg_save(app_t *a, char *arg0, char *arg1, char *arg2, char *arg3)
-{
-    a->start_offset = atoi(arg0);
-    a->end_offset = atoi(arg1);
-    a->start_width = atoi(arg2);
-    a->end_width = atoi(arg3);
-    return 1;
-}
-
-void err_cmd()
-{
-    printf("\r\nERROR cmd\r\n");
-}
-
-uint32_t glitch_loop()
-{
-    for (app.cur_offset = app.start_offset; (app.cur_offset < app.end_offset) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_offset+=app.step)
-    {
-        for (app.cur_width = app.start_width; (app.cur_width < app.end_width) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_width++)
-        {
-            for (uint8_t try = 0; try < 1; try+=app.attempt)
-            {
-                printf("%d, %d\r\n", app.cur_offset, app.cur_width);
-                app.target->glitch(app.cur_offset, app.cur_width);                
-                if (app.target->unlock_checker())
-                {
-                    return 1;
-                }
-            }
-        }
-    }
-    return 0;
-}
-
 void handle_glitch()
 {
     BIT_CLEAR(app.state, SYNC_BIT);
@@ -347,7 +282,13 @@ void handle_glitch()
             if (BIT_CHECK(app.state, GLITCH_ADDR_CMD_BIT)) // GLITCH_ADDR
             {
                 BIT_SET(app.state, GLITCH_ADDR_CMD);
-                app.dump_addr = strtoul(command_args[5], NULL, 16);
+                app.dump_addr1 = strtoul(command_args[5], NULL, 16);
+            }
+            if (BIT_CHECK(app.state, GLITCH_ADDR2_CMD_BIT)) // GLITCH_ADDR2
+            {
+                BIT_SET(app.state, GLITCH_ADDR2_CMD);
+                app.dump_addr1 = strtoul(command_args[5], NULL, 16);
+                app.dump_addr2 = strtoul(command_args[6], NULL, 16);
             }
             clear_board();
             app.target->board_init();
@@ -357,7 +298,7 @@ void handle_glitch()
                 app.target->load_pio_prog();
                 BIT_SET(app.state, SYNC_BIT);
                 BIT_SET(app.state, GLITCH_CMD_BIT);                
-                multicore_fifo_push_blocking('C');
+                multicore_fifo_push_blocking('G');
             }
             else
             {
@@ -381,10 +322,16 @@ void handle_glitch_addr()
     handle_glitch();
 }
 
+void handle_glitch_addr2()
+{
+    BIT_SET(app.state, GLITCH_ADDR2_CMD_BIT);
+    handle_glitch();
+}
+
 void handle_get_memory()
 {
     printf("--- get memory start ---\r\n");
-    printf("addr 0x%x\r\n", app.dump_addr);
+    printf("addr 0x%x\r\n", app.dump_addr1);
     printf("mem ");
     for (int i = 0; i < 0x200; i++)
     {
@@ -467,6 +414,7 @@ void register_commands()
     register_command((command_t){"STOP", 0, &handle_stop});
     register_command((command_t){"GLITCH", 5, &handle_glitch});
     register_command((command_t){"GLITCH_ADDR", 6, &handle_glitch_addr});
+    register_command((command_t){"GLITCH_ADDR2", 7, &handle_glitch_addr2});
     register_command((command_t){"BOOTROM", 0, &handle_bootrom});
     register_command((command_t){"STATE", 0, &handle_state});
     register_command((command_t){"SWD", 1, &handle_swd});
@@ -482,18 +430,89 @@ void register_commands()
     register_command((command_t){"", 0, &handle_unknown_cmd});
 }
 
-void user_btn_callback() {
-    // sleep_ms() kill interrupt work and another same func
-    // print PANIC string to UART
-    if (gpio_get(GP11_SWD_CTRL))
+uint32_t glitch_loop()
+{
+    if (app.step < 0)
     {
-        swd_ext_set(false);
-        set_leds_color(PINK_COLOR, OFF_COLOR);
-    }        
-    else
+        for (app.cur_offset = app.end_offset; (app.cur_offset > app.start_offset) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_offset+=app.step)
+        {
+            for (app.cur_width = app.start_width; (app.cur_width < app.end_width) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_width++)
+            {
+                for (uint8_t try = 0; (try < 1) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); try+=app.attempt)
+                {
+                    printf("%d, %d\r\n", app.cur_offset, app.cur_width);
+                    app.target->glitch(app.cur_offset, app.cur_width);                
+                    if (app.target->unlock_checker())
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    for (app.cur_offset = app.start_offset; (app.cur_offset < app.end_offset) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_offset+=app.step)
     {
-        swd_ext_set(true);
-        set_leds_color(ORANGE_COLOR, OFF_COLOR);        
+        for (app.cur_width = app.start_width; (app.cur_width < app.end_width) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); app.cur_width++)
+        {
+            for (uint8_t try = 0; (try < 1) && (!BIT_CHECK(app.state, STOP_CMD_BIT)); try+=app.attempt)
+            {
+                printf("%d, %d\r\n", app.cur_offset, app.cur_width);
+                app.target->glitch(app.cur_offset, app.cur_width);                
+                if (app.target->unlock_checker())
+                {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+void worker_core1()
+{
+    uint work_cmd;
+    uint32_t fifo_val;
+    uint32_t g = multicore_fifo_pop_blocking();
+    if (g == FLAG_CORE_VALUE)
+    {
+        multicore_fifo_push_blocking(FLAG_CORE_VALUE);
+    }
+
+    while (1)
+    {
+        BIT_CLEAR(app.state, STOP_CMD_BIT);
+        fifo_val = multicore_fifo_pop_blocking();
+        if (fifo_val == 'G')
+        {
+            printf("Core1: rx cmd G\r\n");
+            if (BIT_CHECK(app.state, GLITCH_CMD_BIT))
+            {
+                printf("Core1: Glitch start\r\n");
+                BIT_CLEAR(app.state, GLITCH_CMD_BIT);
+                BIT_SET(app.state, GLITCHING_BIT);
+                set_leds_color(WHITE_COLOR, OFF_COLOR);
+                if (glitch_loop())
+                {
+                    BIT_SET(app.state, GLITCH_SUCC_BIT);
+                    printf("------------------------\r\n");
+                    printf("Glitch OK done\r\n");
+                    printf("Offset %d, Width %d\r\n", app.cur_offset, app.cur_width);
+                    printf("------------------------\r\n");
+                    set_leds_color(GREEN_COLOR, OFF_COLOR);
+                }
+                else
+                {
+                    printf("------------------------\r\n");
+                    printf("Glitch BAD done\r\n");
+                    printf("------------------------\r\n");
+                    set_leds_color(RED_COLOR, OFF_COLOR);
+                }
+                BIT_CLEAR(app.state, GLITCHING_BIT);
+            }
+        }
     }
 }
 
@@ -546,7 +565,7 @@ int main()
     }
     if (g != FLAG_CORE_VALUE)
     {
-        printf("Core 1: not start\n");
+        printf("Core1: not start\n");
     }
 
     while (true)

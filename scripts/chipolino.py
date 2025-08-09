@@ -26,15 +26,11 @@ class Chipolino:
         self.cur_offset
         self.log_info = 0
 
-    targets_list = ["stm32f401_spi_rdp1", "stm32f401_rdp2", 
-                    "stm32f407_uart_rdp1", "stm32f407_rdp2",
-                    "stm32f427_spi_rdp1", "stm32f427_rdp2",
-                    "stm32f429_spi_rdp1", "stm32f429_rdp2",
-                    "stm32f446_spi_rdp1", "stm32f446_rdp2",
-                    "stm32h730_uart_rdp1", "stm32h730_rdp2",
+    targets_list = ["stm32f4xx_spi_rdp1", "stm32f4xx_uart_rdp1", "stm32f4xx_rdp2", 
                     "lpc2148", "lpc1343", 
-                    "nrf52_mosfet",
-                    "rh850", "rh850_rp"]
+                    "rh850_ser",
+                    "nrf52",
+                    ]
 
     def send_cmd(self, cmd:bytearray):
         self.ser.write(cmd + b"\n")
@@ -127,9 +123,9 @@ class Chipolino:
 
     def stop_command_send(self):
         self.get_state_app()
-        while not self.is_stop():
+        while self.is_glitching():
             self.send_cmd(b"STOP")
-            time.sleep(0.05)
+            time.sleep(1)
             self.get_state_app()
 
     def get_memory_cmd(self, size):
@@ -164,18 +160,18 @@ class Chipolino:
             print("Target not synchronized")
             return 0
         self.get_state_app()
-        with progress:
-            task = progress.add_task("GLITCH...")
-            while self.is_glitching():
+        if self.is_glitching():
+            with progress:
+                task = progress.add_task("GLITCH...")
+                while self.is_glitching():
+                    descr = "Glitching ---> Offset: {}/{}, Width: {}/{}, Log: {}".format(self.cur_offset, offset_end, self.cur_width, width_end, self.parse_log_info())
+                    progress.update(task, description=descr)
+                    time.sleep(0.7)
+                    self.get_state_app()        
+                self.get_state_app()  
                 descr = "Glitching ---> Offset: {}/{}, Width: {}/{}, Log: {}".format(self.cur_offset, offset_end, self.cur_width, width_end, self.parse_log_info())
                 progress.update(task, description=descr)
-                time.sleep(0.5)
-                self.get_state_app()        
-            self.get_state_app()  
-            descr = "Glitching ---> Offset: {}/{}, Width: {}/{}, Log: {}".format(self.cur_offset, offset_end, self.cur_width, width_end, self.parse_log_info())
-            progress.update(task, description=descr)
 
-        self.stop_command_send()
         if self.is_glitc_succ():
             print("\nGlitch successed\nOffset: {}, Width: {}".format(self.cur_offset, self.cur_width))
         else:
@@ -199,9 +195,8 @@ class Chipolino:
                     self.get_state_app()
                     descr = "Dumping ---> Addr: 0x{:x}/0x{:x}, Offset: {}/{}, Width: {}/{}, Log: {}".format(cur_addr, end_addr, self.cur_offset, offset_end, self.cur_width, width_end, self.parse_log_info())
                     progress.update(task, description=descr)
-                    time.sleep(0.5)
+                    time.sleep(0.7)
                 if self.is_glitc_succ():
-                    self.stop_command_send()
                     sys.stdout.write('\r' + ' ' * 100 + '\r')  # Очищение строки
                     print("Dumped successfully Addr = {:x}, Offset: {}, Width: {}".format(cur_addr, self.cur_offset, self.cur_width))
                     data, mem_addr = self.get_memory_cmd(chunk_size) 
@@ -211,4 +206,3 @@ class Chipolino:
                     f.write(data)
                     f.flush()
                     cur_addr += chunk_size
-            self.stop_command_send()

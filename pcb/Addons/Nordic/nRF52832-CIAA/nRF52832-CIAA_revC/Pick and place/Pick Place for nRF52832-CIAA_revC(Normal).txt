@@ -1,0 +1,29 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\Nordic\nRF52832-CIAA\nRF52832-CIAA_revC\Pick and place\Pick Place for nRF52832-CIAA_revC(Normal).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       31.03.25
+Time:       16:04
+Revision:   6944b7be3070ebe149aa835cdf3e041b27a71152
+Variant:    Normal
+Units used: mil
+
+Designator Comment                                                       Layer    Footprint               Center-X(mil) Center-Y(mil) Rotation Description                                                                      
+C1         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer CH0603C                 746.063       1685.039      180      ""                                                                               
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer CH0603C                 708.661       1960.630      270      ""                                                                               
+R2         "Resistor thick-film, 0603, 0, ±1%, 0.1W, -55...+125°C"       TopLayer CH0603R                 452.756       1279.528      180      ""                                                                               
+R3         "Resistor thick-film, 0603, 0, ±1%, 0.1W, -55...+125°C"       TopLayer CH0603R                 582.644       1795.216      90       ""                                                                               
+R4         "Resistor thick-film, 0603, 10k, ±1%, 0.1W, -55...+125°C"     TopLayer CH0603R                 440.945       1618.110      90       ""                                                                               
+RP1        "1.0 mm"                                                      TopLayer REPER-10                826.772       78.740        0        ""                                                                               
+RP2        "1.0 mm"                                                      TopLayer REPER-10                111.221       2639.764      90       ""                                                                               
+RP3        "1.0 mm"                                                      TopLayer REPER-10                1110.236      1729.331      90       ""                                                                               
+U1         NRF52832-CIAA                                                 TopLayer BGA50N40P7X8_300X320X40 764.567       1826.772      180      "IC RF TxRx + MCU General ISM > 1GHZ ANT, Bluetooth v5.0 2.4GHz 50-XFBGA, WLCSP" 
+VT1        IRLML2502TRPBF                                                TopLayer SOT23                   582.644       1628.407      0        "RoHS Compliant"                                                                 
+X1         DS1025-06-2x10                                                TopLayer DS1025-06-2X10          188.189       2053.740      90       ""                                                                               
+X2         DS1022-2x10R                                                  TopLayer DS1022-2x10R            242.913       1079.921      90       ""                                                                               
+X3         DEC1                                                          TopLayer TEST-1W_1pin_MULTICOMP  984.252       2047.244      90       ""                                                                               
+X4         GP5                                                           TopLayer TEST-1W_1pin_MULTICOMP  984.252       1259.842      90       ""                                                                               
+X5         VCC_MPU                                                       TopLayer TEST-1W_1pin_MULTICOMP  984.252       1653.543      90       ""                                                                               
+X6         GND                                                           TopLayer TEST-1W_1pin_MULTICOMP  984.252       866.142       90       ""                                                                               

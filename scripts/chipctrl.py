@@ -20,8 +20,6 @@ def exit_gracefully(signal, frame):
     sys.exit(0)
 
 if __name__ == '__main__':
-    print("\n")
-
     parser = argparse.ArgumentParser(prog='chipolino')
     parser.add_argument('-p', "--port", required=True, type=str, help='serial port')
     parser.add_argument('-b', "--bootrom", help='bootrom', action='store_true')

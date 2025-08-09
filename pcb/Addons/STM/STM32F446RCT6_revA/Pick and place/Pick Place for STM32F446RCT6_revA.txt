@@ -1,0 +1,45 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\Addons\STM\STM32F446RCT6\STM32F446RCT6_revA\Pick and place\Pick Place for STM32F446RCT6_revA.txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       23.06.25
+Time:       15:58
+Revision:   98af20119e98757a4d110524d9c1b8ddbc06f48e
+Variant:    No variations
+Units used: mm
+
+Designator Comment                                                       Layer       Footprint              Center-X(mm) Center-Y(mm) Rotation Description                                                                                                     
+C1         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                21.0000      58.5669      90       ""                                                                                                              
+C2         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                22.0000      40.1000      270      ""                                                                                                              
+C3         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                13.9000      58.5669      90       ""                                                                                                              
+C4         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                9.7000       45.5000      180      ""                                                                                                              
+C5         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                27.2000      51.5000      0        ""                                                                                                              
+C6         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C" TopLayer    CH0603C                27.2000      48.5000      180      ""                                                                                                              
+C7         "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  BottomLayer CH0603C                19.4000      52.6250      180      ""                                                                                                              
+C8         "Ceramic capacitor, 0603, 2.2u, ±10%, 10V, X7R, -55...+125°C" TopLayer    CH0603C                15.6000      58.5669      270      ""                                                                                                              
+C9         "Ceramic capacitor, 0603, 2.2u, ±10%, 10V, X7R, -55...+125°C" TopLayer    CH0603C                27.2000      45.5000      180      ""                                                                                                              
+C10        "Ceramic capacitor, 0603, 15, ±10%, 100V, C0G, -55...+125°C"  BottomLayer CH0603C                19.4677      46.2000      0        ""                                                                                                              
+R1         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                11.5000      19.0000      180      ""                                                                                                              
+R2         "Resistor thick-film, 0603, 0, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                11.5000      21.5000      180      ""                                                                                                              
+R3         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer    CH0603R                27.2000      50.0000      0        ""                                                                                                              
+R4         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     BottomLayer CH0603R                13.5500      54.2750      180      ""                                                                                                              
+R5         "Resistor thick-film, 0603, 100, ±5%, 0.1W, -55...+125°C"     BottomLayer CH0603R                14.7250      51.7500      90       ""                                                                                                              
+R6         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer    CH0603R                20.1000      40.1000      270      ""                                                                                                              
+R7         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"     TopLayer    CH0603R                17.3125      58.5669      90       ""                                                                                                              
+RP1        "1.0 mm"                                                      TopLayer    REPER-10               28.4083      5.9384       0        ""                                                                                                              
+RP2        "1.0 mm"                                                      TopLayer    REPER-10               2.8000       67.1000      90       ""                                                                                                              
+RP3        "1.0 mm"                                                      BottomLayer REPER-10               2.8000       67.1000      90       ""                                                                                                              
+RP4        "1.0 mm"                                                      BottomLayer REPER-10               28.4083      5.9384       90       ""                                                                                                              
+U1         STM32F446RCT6                                                 TopLayer    LQFP_64                18.3000      49.2500      180      "ARM Cortex-M4 32-bit MCU+FPU, 256 KB Flash, 128 KB Internal RAM, 50 I/Os, 64-Pin LQFP, -40 to 85 degC, Tray"   
+VT1        IRLML2502TRPBF                                                BottomLayer SOT23                  11.7000      51.6750      270      "RoHS Compliant | Industry-leading quality | Fast Switching | Low Profile _less than 1.1mm_ | SOT-23 Footprint" 
+X1         VDD                                                           TopLayer    TEST-1W_1pin_MULTICOMP 28.4000      31.5000      90       ""                                                                                                              
+X2         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP 28.5000      9.0000       90       ""                                                                                                              
+X3         GP5                                                           TopLayer    TEST-1W_1pin_MULTICOMP 28.4000      24.0000      90       ""                                                                                                              
+X4         GND                                                           TopLayer    TEST-1W_1pin_MULTICOMP 28.4000      16.5000      90       ""                                                                                                              
+X5         DS1025-06-2x10                                                TopLayer    DS1025-06-2X10         4.7800       52.1650      90       ""                                                                                                              
+X6         DS1022-2x10R                                                  TopLayer    DS1022-2x10R           6.1700       27.4300      90       ""                                                                                                              
+X7         VCAP                                                          TopLayer    TEST-1W_1pin_MULTICOMP 10.2000      57.7000      90       ""                                                                                                              
+X8         DS1021-01-6                                                   TopLayer    DS1021-01-6__2.54      15.3750      1.8000       180      ""                                                                                                              
+Z1         8MHz                                                          BottomLayer OSC:_3225              19.4875      49.8750      270      ""                                                                                                              

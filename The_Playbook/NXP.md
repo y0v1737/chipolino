@@ -1,5 +1,14 @@
 # NXP
-## LPC2148
+
+### Supported devices
+
+The repository includes descriptions of attacks on LPC microcontrollers. The most detailed analysis is written for [LPC2148](#lpc2148), which you should definitely review.
+* [LPC2148](#lpc2148)
+* [LPC1343](#lpc1343)
+* ...
+* Any similar LPC — using a universal addon.
+
+## <span id="lpc2148">LPC2148</span>
 
 <details>
   <summary>Addon LPC2148</summary>
@@ -11,110 +20,109 @@
 </details>
 
 ### Bypass CRP1, CRP2
-LPC2148 имеет несколько степеней защиты. Текущий уровень защиты определяется значением записанным во flash память по адресу 0x1FC. В данной главе речь идет об обходе защиты уровня CRP1 и CRP2. В обоих режимах работы отключена отладка через JTAG и некоторые команды, которые может выполнять bootloader.
+
+LPC2148 has several levels of protection. The current protection level is determined by the value stored in flash memory at address 0x1FC. This chapter covers bypassing protection levels CRP1 and CRP2. In both modes, debugging via JTAG is disabled, as well as certain commands executable by the bootloader.
 
 ![400](pics/lpc2148_2_1.png)
 
-Данный МК всегда стартует с bootloader. Код в bootloader содержит проверки значения по адресу 0x1FC и в зависимости от содержимого настраивает МК. Одна из таких проверок расположена непосредственно перед переходом МК в режим ISP. Именно эта проверка и является целью атаки. Суть в том, чтобы оказаться в режиме ISP и МК думал, что защита не установлена. 
+This MCU always starts with the bootloader. The bootloader code checks the value at address 0x1FC and configures the MCU accordingly. One of these checks is located just before the MCU enters ISP mode. This check is the target of the attack. The goal is to get into ISP mode while making the MCU believe that no protection is enabled.
 
 ![400](pics/lpc2148_5_1.png)
 
-###### Note
-Можно вычитать bootloader из LPC2148, провести реверс-инжиниринг и своими глазами найти эту проверку. Bootloader расположен в памяти 0x7FFFD000-0x80000000.
+##### Note
+```
+You can dump the bootloader from the LPC2148, perform reverse engineering, and visually locate this check. 
+The bootloader is located in memory from 0x7FFFD000 to 0x80000000.
+```
 
-###### Attention!
-Перед тем, как провести атаку  стоит убедиться, что установлен один из целевых уровней защиты - CRP1 или CRP2. Для этого нужно подключить аддон к Chip'olino и начать атаку. Chip'olino поднимет питание МК и попытается синхронизироваться с bootloader-ом.  
+Before performing the attack, make sure that one of the target protection levels—CRP1 or CRP2—is enabled. To do this, connect the addon to Chip'olino and start the attack. Chip'olino will power up the microcontroller and attempt to synchronize with the bootloader.
+
 ![600](pics/lpc2148_check_protect.png)
 
 ```bash
 py.exe chipctrl.py -p COM6 -g -t lpc2148 -o 255800 270100 -w 275 295
 ```
 
-Если в результате процесс глича начнется, то это значит, что МК в CRP1 или CRP2 режиме. Убедитесь, что появилась надпись "Target synchronized".
+If the glitching process starts as a result, it means the MCU is in CRP1 or CRP2 mode. Make sure the message "Target synchronized" appears.
 
 ![](pics/lpc2148_9.png)
 
-###### Debug note
+##### Debug note
+```
 "Target not synchronized" значит, что нет связи с МК. Проблема может быть в сборке аддона или же в том, что установлен уровень защиты CRP3.
+```
 
-###### Note
-Для предварительной тренировки на тестовом МК можно удобно выставлять защиту через JTAG. Используйте утилиту J-Mem вместе с J-Link. Подключите аддон к Chip'olino, а J-Link к аддону, как показано ниже.
+For preliminary training on a test MCU, you can conveniently set the protection via JTAG. Use the J-Mem utility together with J-Link. Connect the addon to Chip'olino, and then connect J-Link to the addon, as shown below.
 
 ![600](pics/lpc2148_jlink.png)
 
-Для того, что бы подать необходимое питание на МК и он был готов к подключению по JTAG можно запустить скрипт для атаки. В случае, если защита не установлена, то он просто включит МК. После этого можно подключаться через J-link стандартным образом. Запишите **0x12345678** или **0x87654321** по адресу 0x1FC - защита будет установлена.
+To supply the required power to the MCU and prepare it for JTAG connection, you can run the attack script. If no protection is set, the script will simply power on the MCU. After that, you can connect via J-Link in the usual way. Write **0x12345678** or **0x87654321** to address 0x1FC to enable the protection.
 
 ![600](pics/lpc2148_21.png)
 
 ![400](pics/lpc2148_14.png)
 
 #### Glitch MCU
-Для данного МК момент атаки - это исполнение кода bootloader-ом, то есть момент загрузки МК до всякого взаимодействия с ним. Далее МК загружается в режиме ISP и либо отвечает на команды чтения, либо выдает ошибку (если глич был неудачный). Сама же атака проходит по каналу питания МК. Питающие МК 3.3В проходят на плате Chip'olino через мультиплексор, что позволяет притянуть линию питания к "земле" в момент атаки.
-После попытки сбоя Chip'olino попытается синхронизироваться с LPC2148 и запросит несколько байт из flash памяти для того, чтобы проверить успешность атаки.
+For this MCU, the attack moment is during the bootloader code execution—that is, the time when the MCU boots up before any interaction with it. Then, the MCU loads into ISP mode and either responds to read commands or returns an error (if the glitch was unsuccessful). The attack itself is performed through the MCU's power line. The 3.3V power supply to the MCU passes through a multiplexer on the Chip'olino board, allowing the power line to be switched to ground at the moment of the attack. After attempting the glitch, Chip'olino will try to synchronize with the LPC2148 and request several bytes from the flash memory to verify whether the attack succeeded.
 
 ![](pics/lpc2148_22.png)
 
 ![](pics/lpc2148_15_1.png)
-###### Note
-Кварцевый резонатор (12МГц) необходим для работы МК, даже в режиме ISP (bootloader).
+##### Note
+```
+A 12 MHz quartz crystal resonator is required for the MCU to operate, even in ISP (bootloader) mode.
+```
 
-Запуск атаки для LPC2148:
+
+Starting the attack on **LPC2148**:
 
 ```bash
 py.exe chipctrl.py -p COM5 -g -t lpc2148 -o 255500 270100 -w 275 295
 ```
-* -p - порт Chip'olino;
-* -g - glitch команда;
-* -t - наименование целевого МК;
-* -o - offset - смещение по времени (в попугаях) от фронта сигнала Reset;
-* -w - width - ширина импульса (в попугаях) управляющего N-MOSFET;
 
 ![600](pics/lpc2148_9.png)
 
- Надпись "LOCK" в поле **Log** значит, что атака идет корректно.
-###### Note
-У вас может отличаться порт, смещение и ширина.
+The message "LOCK" in the **Log** field means that the attack is proceeding correctly.
 
-Если вы используете Chip'olino вместе с аддоном, то можно просто запустить скрипт, как показано выше. Параметры смещения и ширины импульса сильно не изменятся. Если что-то не получилось, то ниже приведены скриншоты с осциллографа для успешной атаки. Можно сравнить и форму сигналов, и временные параметры, после чего провести дополнительную подстройку смещения и длительности.
+If you are using Chip'olino together with the addon, you can simply run the script as shown above. The offset and pulse width parameters won’t change much. If something doesn’t work out, below are oscilloscope screenshots of a successful attack. You can compare the signal shapes and timing parameters, then fine-tune the offset and duration accordingly.
+
+Carefully study the screenshots. They can be a great help if you encounter any problems.
+
 
 ![600](pics/lpc2148_15.png)
 ![600](pics/lpc2148_16.png)
 ![600](pics/lpc2148_17.png)
 ![600](pics/lpc2148_19.png)
 
-###### Note
-Внимательно ознакомьтесь со скриншотами. В случае проблем они могут сильно выручить.
 ###### Glitch parameters
-* ~110 мкс от старта МК (HW init на скриншоте);
-* ~83 мкс от начала исполнения bootloader (bootloader exec start на скриншоте);
-* ~1.2 мкс длительность импульса;
-* Способ: мультиплексор на линии питания (3.3V) МК.
+* ~110 µs from the MCU start (hardware initialization on the screenshot);
+* ~83 µs from the start of bootloader execution (bootloader exec start on the screenshot);
+* ~1.2 µs pulse duration;
+* Method: multiplexer on the MCU power line (3.3V).
 
 ![600](pics/lpc2148_20.png)
 
 #### Dump firmware
-После успешной атаки не отключайте аддон от Chip'olino, так он останется запитан и будет готов к общению по UART. Лучше всего подключить USB-UART адаптер до начала атаки к аддону и к ПК.
-Прошивка расположена во flash памяти, ее размер зависит от МК - нужно предварительно изучить карту памяти вашего МК.
+After a successful attack, do not disconnect the addon from Chip'olino, so it will remain powered and ready for communication via UART. It’s best to connect the USB-UART adapter to the addon and PC before starting the attack. The firmware is stored in the flash memory, and its size depends on the MCU — you need to study the memory map of your MCU in advance.
 
 ![500](pics/lpc2148_4.png)
 
-Для LPC2148 необходимо вычитать регион 0x00000000-0x00080000. Для этого есть скрипт ***/scripts/dump_lpc2148.py***. Запустите его, как показано ниже, учтите, что порт нужно указать для USB-UART адаптера.
+For the LPC2148, you need to dump the memory region from 0x00000000 to 0x00080000. There is a script for this: _**/scripts/dump_lpc2148.py**_. Run it as shown below, making sure to specify the port corresponding to your USB-UART adapter.
 
 ```bash
-# Дамп региона flash памяти lpc2148 в файл flash_lpc2148.bin
+# Dump of the LPC2148 flash memory region to the file **flash_lpc2148.bin**
 py.exe .\dump_lpc2148.py -p COM8 -a 0 0x00080000 -f flash_lpc2148.bin
 ```
-###### Note
-Дамп памяти через UART не самая быстрая процедура. Можно этого избежать. Можно прочитать только 0-ой сектор через UART, потом стереть только 0-ой сектор (***/scripts/erase_lpc2148.py***). После этого защита с МК будет снята, так как значение, определяющее уровень защиты расположено по адресу 0x1FC (0-ой сектор). Оставшуюся часть прошивки можно будет вычитать через JTAG.
+
+Memory dumping via UART is not the fastest procedure. This can be avoided. You can read only the 0th sector via UART, then erase just the 0th sector (using _**/scripts/erase_lpc2148.py**_). After that, the protection on the MCU will be removed since the value that determines the protection level is located at address 0x1FC (within the 0th sector). The remaining part of the firmware can then be read via JTAG.
 
 ![500](pics/lpc2148_1.png)
 
-
 ```bash
-# Дамп 0-ого сектора памяти lpc2148 в файл zero_sector.bin
+# Dump the 0th memory sector of the LPC2148 into the file zero_sector.bin
 py.exe .\dump_lpc2148.py -p COM8 -a 0 0x1000 -f zero_sector.bin
 
-# Когда 0-ой сектор прочтен, его можно стереть.
+# Once the 0th sector is read, it can be erased
 py .\erase_lpc2148.py -p COM8
 ```
 
@@ -125,16 +133,105 @@ py .\erase_lpc2148.py -p COM8
 ![600](pics/lpc2148_jlink.png)
 ![500](pics/lpc2148_6.png)
 
-###### Attention!
-Все действия, указанные выше, нужно делать без отключения аддона от Chip'plino. После стирания 0-ого сектора чип нужно будет 1 раз перезагрузить. Это можно сделать командами:
+All the actions described above should be done without disconnecting the addon from Chip'olino. After erasing the 0th sector, the chip needs to be rebooted once. This can be done with the following commands:
 
 ```bash
-# Отключить питание МК
+# Power off the MCU
 py.exe chipctrl.py -p COM5 -gp 4 0
-# Включить питание МК
+# Power on the MCU
 py.exe chipctrl.py -p COM5 -gp 4 1
 ```
-После перезагрузки JTAG должен работать.
+
+After reboot, JTAG should work.
+#### Links
+* https://www.nxp.com/docs/en/user-guide/UM10139.pdf
+* https://recon.cx/2017/brussels/resources/slides/RECON-BRX-2017-Breaking_CRP_on_NXP_LPC_Microcontrollers_slides.pdf
+
+## <span id="lpc1343">LPC1343</span>
+
+The attack on LPC1343 is similar to the one for LPC2148, with a few differences:
+- Slightly different UART packet format — so different scripts are used;    
+- SWD interface instead of JTAG.    
+Otherwise, there are no major differences. That’s why the detailed explanation is given only for LPC2148 — it’s best to read that first before moving on to LPC1343.
+
+<details>
+  <summary>Addon LPC1343</summary>
+  
+![](pics/lpc1343_16.png)
+
+![](pics/lpc1343_15.png)
+
+</details>
+
+### Bypass CRP1, CRP2
+#### Glitch MCU
+
+
+![](pics/lpc1343_19.png)
+
+![](pics/lpc1343_20.png)
+
+Starting the attack on LPC1343:
+
+```bash
+py.exe chipctrl.py -p COM6 -g -t lpc1343 -o 15300 190100 -w 14 20
+```
+
+![600](pics/lpc1343_7.png)
+
+The message "LOCK" in the **Log** field means that the attack is proceeding correctly.
+
+You can compare both the signal shapes and timing parameters, then fine-tune the offset and pulse duration accordingly. Carefully study the screenshots — they can be extremely helpful if any issues arise.
+
+![600](pics/lpc1343_9.png)
+![600](pics/lpc1343_10.png)
+![600](pics/lpc1343_12.png)
+
+###### Glitch parameters
+* ~65 µs from MCU start;
+* ~55 µs from bootloader execution start;
+* ~75 ns pulse duration;
+* Method: multiplexer on the MCU’s 3.3V power line.
+#### Dump firmware
+After a successful attack, do not disconnect the addon from Chip'olino—this way it will remain powered and ready for communication via UART. It’s best to connect the USB-UART adapter to both the addon and the PC before starting the attack. The firmware is located in the flash memory; its size depends on the microcontroller (MCU), so you should first study the memory map of your specific MCU.
+
+```bash
+# Dump the flash memory region of the LPC1343 to the file flash_lpc1343.bin
+py.exe .\dump_lpc1343.py -p COM8 -a 0 0x8000 -f flash_lpc1343.bin
+```
+
+Dumping memory via UART is not the fastest procedure. This can be avoided. You can read only the 0th sector via UART, then erase only the 0th sector (_**/scripts/erase_lpc1343.py**_). After that, the protection on the MCU will be removed because the value that defines the protection level is located at address 0x1FC (in the 0th sector). The remaining part of the firmware can then be read via SWD.
+
+![500](pics/lpc1343_1.png)
+
+
+```bash
+# Dump the 0th sector of LPC1343 memory to the file zero_sector.bin
+py.exe .\dump_lpc1343.py -p COM8 -a 0 0x1000 -f zero_sector.bin
+
+# Once the 0th sector is read, it can be erased
+py .\erase_lpc1343.py -p COM8
+```
+
+![500](pics/lpc1343_13.png)
+
+![500](pics/lpc1343_14.png)
+
+All the actions mentioned above should be performed without disconnecting the addon from Chip'olino. After erasing the 0th sector, the chip will need to be rebooted once. This can be done with the following commands:
+
+```bash
+# Power off MCU
+py.exe chipctrl.py -p COM5 -gp 4 0
+# Power on MCU
+py.exe chipctrl.py -p COM5 -gp 4 1
+
+# Switch the SWD pins from the MCU to the connector for external connection
+py.exe chipctrl.py -p COM6 -swd ext
+```
+
+After the reboot, SWD should be functional.
+
+![600](pics/lpc1343_17.png)
 #### Links
 * https://www.nxp.com/docs/en/user-guide/UM10139.pdf
 * https://recon.cx/2017/brussels/resources/slides/RECON-BRX-2017-Breaking_CRP_on_NXP_LPC_Microcontrollers_slides.pdf

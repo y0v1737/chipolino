@@ -27,11 +27,14 @@ if __name__ == '__main__':
     parser.add_argument('-i', "--init", required=True, type=int, help='startup initialization')
     parser.add_argument('-d', "--debugout", action='store_false', help='debug information out')
     args = parser.parse_args()
-    conn = serial.Serial(args.port, 9600, dsrdtr=True, timeout=0.2)
+    # conn = serial.Serial(args.port, 9600, dsrdtr=True, timeout=0.2)
+    conn = serial.Serial(args.port, 9600)
     if args.debugout:
         debug = False
     else:
         debug = True    
+
+    conn.read_all()
 
     if args.init == 1 :
         conn.dtr = True # Set reset line
@@ -112,14 +115,14 @@ if __name__ == '__main__':
         time.sleep(0.1)
     #init end
 
+
     # Check OCD protection
     conn.write(b'\x01\x00\x01\x2C\xD3\x03')
     resp = conn.read(7) 
-    print(resp) 
     if debug:
         hexdump(resp) 
     if resp[0:4] != b'\x81\x00\x01\x2C':
-        print("err: Check OCD protection st1")
+        print("err: Check OCD protection - stage 1")
         exit() 
 
     time.sleep(0.1)
@@ -128,8 +131,9 @@ if __name__ == '__main__':
     if debug:
         hexdump(resp)         
     if resp[0:4] != b'\x81\x00\x02\x2C':
-        print("err: Check OCD protection st2")
+        print("err: Check OCD protection - stage 2")
         exit()
+
     #Try default OCD code
     if(resp[4]) != 0xFF:
         print("OCD Security active.")
@@ -145,6 +149,8 @@ if __name__ == '__main__':
             print("Defaul password accepted.")
     else:
         print("OCD protection disabled.")
+
+
     time.sleep(0.1)        
     # Silicon Signature
     conn.write(b'\x01\x00\x01\x3A\xC5\x03')
@@ -193,9 +199,11 @@ if __name__ == '__main__':
     resp = conn.read(6) 
     if debug:
         hexdump(resp)
+
+    print("\n")
     if resp != b'\x81\x00\x01\x1C\xE3\x03':
-        print("err: renew chip")
+        print("ERR: Renew chip fail")
         exit()
     else:
-        print("chip erased sucsessfully.")
+        print("Chip erased sucsessfully.")
 
