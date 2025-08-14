@@ -153,18 +153,12 @@ typedef struct {
     void (*func)(void);
 } command_t;
 
-command_t registered_commands[20];
-char command_args[6][100];
-uint32_t reg_cmd_len;
-
 typedef enum {
     V_1V2,
     V_1V8,
     V_3V3,
     V_Z
 }VOLT_SEL;
-
-uint8_t str_arg[USB_STR_LEN];
 
 void clear_board();
 void set_leds_color(uint32_t color1, uint32_t color2);

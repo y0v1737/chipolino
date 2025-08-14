@@ -42,6 +42,11 @@ target_t *targets_list[] = {
     &rh850_ser_tgt, 
 };
 
+command_t registered_commands[20];
+char command_args[6][100];
+uint32_t reg_cmd_len;
+uint8_t str_arg[USB_STR_LEN];
+
 void err_cmd()
 {
     printf("\r\nERROR cmd\r\n");
