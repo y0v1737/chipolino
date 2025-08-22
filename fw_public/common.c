@@ -234,11 +234,3 @@ uint8_t is_emfi_ready()
 {
     return gpio_get(EMFI_READY_PIN);
 }
-
-
-
-
-
-
-
-

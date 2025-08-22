@@ -229,6 +229,33 @@ uint32_t swd_memread_noreset(uint32_t addr) {
     return value;
 }
 
+
+// void swd_memwrite(uint32_t addr, uint32_t value, int delay) {
+//     probe_assert_reset(true);
+//     sleep_us(delay);
+
+//     
+
+//     swd_do_cmd(swd_cmd(false, true, 0x4), addr);
+
+//     uint32_t v = 0;
+//     probe_write_mode();
+//     probe_write_bits(10, v);
+
+//     // write MEMAP DRW
+//     swd_do_cmd(swd_cmd(false, true, 0xc), value);
+
+//     probe_write_mode();
+//     probe_write_bits(10, v);
+
+//     // read MEMAP DRW
+//     swd_do_cmd(swd_cmd(true, true, 0xc), 0x0);
+//     //probe_write_bits(8, swd_cmd(false, true, 0xc) | SWD_CMD_START | SWD_CMD_PARK);
+
+//     sleep_us(40);
+//     probe_assert_reset(false);
+// }
+
 void swd_memwrite_noreset(uint32_t addr, uint32_t value) {
     // write DP_SELECT with 0
     swd_do_cmd(swd_cmd(false, false, 0x8), (0 << 24) | (0xf << 4));

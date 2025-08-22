@@ -39,7 +39,7 @@ target_t *targets_list[] = {
     &lpc2148_tgt,
     &lpc1343_tgt,
     &nrf52_tgt,
-    &rh850_ser_tgt, 
+    &rh850_ser_tgt, &rh850_id_tgt, &rh850_rp_tgt,
 };
 
 command_t registered_commands[20];

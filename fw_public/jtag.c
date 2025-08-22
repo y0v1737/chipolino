@@ -10,6 +10,7 @@ void jtag_init() {
 }
 
 void jtag_delay() {
+    // sleep_us(10);
     sleep_us(50);
 }
 
@@ -83,6 +84,7 @@ void jtag_exit_shift_ir() {
     jtag_clock_pulse();
 }
 
+// Считывание 32-битного IDCODE
 uint32_t jtag_read_idcode() 
 {
     uint32_t idcode = 0;
@@ -100,3 +102,4 @@ uint32_t jtag_read_idcode()
     jtag_exit_shift_dr() ;
     return idcode;
 }
+/////////////////////////////////////////////////////////////////////
