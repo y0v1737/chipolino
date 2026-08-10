@@ -1,0 +1,17 @@
+.program pulse
+
+.wrap_target
+
+    pull block      ; offset
+    mov x, osr
+    pull block      ; width
+    mov y, osr
+
+delay_loop:
+    jmp x-- delay_loop
+    set pins, 1
+width_loop:
+    jmp y-- width_loop
+    set pins, 0
+
+.wrap

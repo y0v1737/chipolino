@@ -2,3 +2,8 @@ pyserial
 argparse
 hexdump
 rich
+matplotlib
+pyvisa
+pyusb
+libusb_package
+wmi

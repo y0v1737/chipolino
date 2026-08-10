@@ -28,8 +28,9 @@ class Chipolino:
 
     targets_list = ["stm32f4xx_spi_rdp1", "stm32f4xx_uart_rdp1", "stm32f4xx_rdp2", 
                     "lpc2148", "lpc1343", 
-                    "rh850_ser",
+                    "rh850_ser", "rh850_id", "rh850_rp",
                     "nrf52",
+                    "rk3588",
                     ]
 
     def send_cmd(self, cmd:bytearray):

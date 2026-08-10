@@ -3,6 +3,7 @@
 #include "targets/nrf52.h"
 #include "targets/stm32f4xx.h"
 #include "targets/rh850.h"
+#include "targets/rk3588.h"
 #include "tusb.h"
 #include <ctype.h>
 
@@ -40,6 +41,7 @@ target_t *targets_list[] = {
     &lpc1343_tgt,
     &nrf52_tgt,
     &rh850_ser_tgt, &rh850_id_tgt, &rh850_rp_tgt,
+    &rk3588_tgt,
 };
 
 command_t registered_commands[20];

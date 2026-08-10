@@ -1,0 +1,25 @@
+.program p_gnd_5v
+.side_set 5
+
+public entry:
+    pull block         side 0b10000
+    mov y, osr         side 0b10000
+    pull block         side 0b10000
+    mov x, osr         side 0b10000
+    pull block         side 0b10000
+
+rst_loop:
+    jmp y-- rst_loop   side 0b00000 
+
+    mov y, osr         side 0b00000
+
+poffset:
+    jmp x-- poffset    side 0b10000
+
+pwidth:
+    jmp y-- pwidth     side 0b10001
+
+    irq 0              side 0b10000
+
+loop:
+    jmp loop           side 0b10000
