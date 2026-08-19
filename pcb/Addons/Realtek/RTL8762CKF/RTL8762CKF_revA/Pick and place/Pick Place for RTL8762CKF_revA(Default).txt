@@ -1,0 +1,42 @@
+Altium Designer Pick and Place Locations
+C:\Users\nshadrin\Documents\Project\chipolino\pcb\Addons\Realtek\RTL8762CKF_revA\Pick and place\Pick Place for RTL8762CKF_revA(Default).txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       03.06.26
+Time:       17:19
+Revision:   db63545b7e672e17f4cc1c3f054b6f3f8b754d51
+Variant:    Default
+Units used: mm
+
+Designator Comment                                                         Layer       Footprint              Center-X(mm) Center-Y(mm) Rotation Description                                                                                                     
+C1         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"   TopLayer    CH0603C                23.4000      49.0083      90       ""                                                                                                              
+C2         "Ceramic capacitor, 0603, 4.7u, ±10%, 16V, X7R, -55...+125°C"   TopLayer    CH0603C                23.8750      51.2000      180      ""                                                                                                              
+C3         "Ceramic capacitor, 0603, 9.1p, ±10%, 100V, C0G, -55...+125°C"  TopLayer    CH0603C                10.7000      44.0000      270      ""                                                                                                              
+C4         "Ceramic capacitor, 0603, 0.01u, ±10%, 100V, X7R, -55...+125°C" TopLayer    CH0603C                21.6000      48.9500      270      ""                                                                                                              
+C5         "Ceramic capacitor, 0603, 4.7u, ±10%, 10V, X7R, -55...+125°C"   TopLayer    CH0603C                13.9000      55.2499      180      ""                                                                                                              
+C6         "Ceramic capacitor, 0603, 0.1u, ±10%, 50V, X7R, -55...+125°C"   TopLayer    CH0603C                15.8500      41.0000      0        ""                                                                                                              
+C7         "Ceramic capacitor, 0603, 9.1p, ±10%, 100V, C0G, -55...+125°C"  TopLayer    CH0603C                15.9000      44.0000      90       ""                                                                                                              
+DD1        RTL8762CKF                                                      TopLayer    QFN40P600X600X90-49N   16.5250      50.5500      0        "RTL8762CKF, QFN-48 6x6mm"                                                                                      
+L1         2.2uH                                                           TopLayer    INDC_0805(2012)X145N   22.6750      52.8250      0        ""                                                                                                              
+R1         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                29.1000      49.7000      270      ""                                                                                                              
+R2         "Resistor thick-film, 0603, 100, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                29.1000      45.9923      90       ""                                                                                                              
+R3         "Resistor thick-film, 0603, 10k, ±5%, 0.1W, -55...+125°C"       TopLayer    CH0603R                15.8250      39.1000      180      ""                                                                                                              
+RP1        "1.0 mm"                                                        TopLayer    REPER-10               28.6000      7.5000       0        ""                                                                                                              
+RP2        "1.0 mm"                                                        TopLayer    REPER-10               2.8000       67.0000      90       ""                                                                                                              
+RP3        "1.0 mm"                                                        BottomLayer REPER-10               2.8000       67.0000      90       ""                                                                                                              
+RP4        "1.0 mm"                                                        BottomLayer REPER-10               28.6000      7.5000       90       ""                                                                                                              
+VT1        IRLML2502TRPBF                                                  TopLayer    SOT23                  26.3000      48.8750      90       "RoHS Compliant | Industry-leading quality | Fast Switching | Low Profile _less than 1.1mm_ | SOT-23 Footprint" 
+X1         VDD                                                             TopLayer    TEST-1W_1pin_MULTICOMP 12.2000      15.6000      90       ""                                                                                                              
+X2         GND                                                             TopLayer    TEST-1W_1pin_MULTICOMP 27.0500      22.5500      90       ""                                                                                                              
+X3         GP5                                                             TopLayer    TEST-1W_1pin_MULTICOMP 21.6000      37.0000      90       ""                                                                                                              
+X4         GND                                                             TopLayer    TEST-1W_1pin_MULTICOMP 27.5000      62.4750      90       ""                                                                                                              
+X5         DS1025-06-2x10                                                  TopLayer    DS1025-06-2X10         4.7800       52.1650      90       ""                                                                                                              
+X6         DS1022-2x10R                                                    TopLayer    DS1022-2x10R           6.1700       27.4300      90       ""                                                                                                              
+X7         P0_3                                                            TopLayer    TEST-1W_1pin_MULTICOMP 23.9000      42.7000      90       ""                                                                                                              
+X8         VCORE                                                           TopLayer    TEST-1W_1pin_MULTICOMP 26.3000      54.2000      90       ""                                                                                                              
+X9         GND                                                             TopLayer    TEST-1W_1pin_MULTICOMP 28.4250      31.0000      90       ""                                                                                                              
+X10        DS1021-01-2                                                     TopLayer    DS1021-01-2__2.54      19.5250      31.0000      180      ""                                                                                                              
+X11        DS1021-01-6                                                     TopLayer    DS1021-01-6__2.54      15.4900      2.5000       180      ""                                                                                                              
+Z1         40MHz                                                           TopLayer    OSC:_3225              13.0875      44.6500      270      ""                                                                                                              

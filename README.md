@@ -50,6 +50,8 @@ All values for pulse widths and offset shifts for glitches provided in the instr
 │   └── targets
 ├── pcb                              # PCB projects
 │   ├── ChipOlino_revA               # Chip'olino PCB project
+│   ├── Realtek                      # Realtek addons PCB
+│   │   ├── RTL8762CKF_revA
 │   ├── Nordic                       # Nordic addons PCB
 │   │   ├── nRF52832-CIAA
 │   │   ├── nRF52840-QIAA
