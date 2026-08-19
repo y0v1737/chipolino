@@ -15,6 +15,7 @@ add_executable(chipolino
   targets/nrf52.c
   targets/rh850.c
   targets/rk3588.c
+  targets/rtl8762c
   glitcher.c
   swd_pico.c
   common.c
@@ -34,6 +35,7 @@ pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_gnd_5v.pio
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/pwm.pio)
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/uart_rx.pio)
 pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/pulse.pio)
+pico_generate_pio_header(chipolino ${CMAKE_CURRENT_LIST_DIR}/pio_sm/p_squarewave.pio)
 
 pico_enable_stdio_usb(chipolino 1)
 pico_enable_stdio_uart(chipolino 0)

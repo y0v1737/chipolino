@@ -6,6 +6,7 @@
 
 ### Targets
 Currently, the project includes algorithms for conducting attacks on:
+* [Realtek (rtl8762)](The_Playbook/Realtek.md)
 * [Rockchip (RK3588)](The_Playbook/RK3588.md)
 * [nRF52 (The entire nRF5 family)](The_Playbook/nRF52.md)
 * [Renesas RH850 (The entire RH850 family)](The_Playbook/Renesas.md)
